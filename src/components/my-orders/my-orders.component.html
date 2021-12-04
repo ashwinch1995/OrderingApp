@@ -1,0 +1,64 @@
+<mat-card *ngIf = "orders">
+    <h2>My Orders</h2>
+    <table mat-table [dataSource]="orders" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="orderID">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.orderID}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="orderDate">
+          <th mat-header-cell *matHeaderCellDef> Date </th>
+          <td mat-cell *matCellDef="let element"> {{element.orderDate}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="orderTotal">
+          <th mat-header-cell *matHeaderCellDef> Order Total </th>
+          <td mat-cell *matCellDef="let element"> {{element.orderTotal}} </td>
+        </ng-container>      
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row (click) = "showOrderInfo(row)" style="cursor: pointer;" *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>          
+</mat-card>
+
+<div  style="padding-top: 1%;"  *ngIf = "showOrderDetails">
+    <mat-card *ngIf = "orderDetails">
+        <h2>Order Details</h2>
+        <p>
+            <label>Order ID:</label>
+            {{orderDetails.order.orderID}}
+            <br>
+            <label>Order Date:</label>
+            {{orderDetails.order.orderDate}}
+            <br>
+            <label>Order Total:</label>
+            {{orderDetails.order.orderTotal}}        
+        </p>
+        <table mat-table [dataSource]="orderDetails.orderProducts" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="productName">
+              <th mat-header-cell *matHeaderCellDef > Item name </th>
+              <td mat-cell *matCellDef="let element"> {{element.product.productName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="unitPrice">
+                <th mat-header-cell *matHeaderCellDef > Unit Price </th>
+                <td mat-cell *matCellDef="let element"> {{element.product.unitPrice}} </td>
+              </ng-container>
+          
+            <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef > Quantity </th>
+                <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+              </ng-container>
+          
+            <ng-container matColumnDef="netProductPrice">
+              <th mat-header-cell *matHeaderCellDef> Total Item cost </th>
+              <td mat-cell *matCellDef="let element"> {{element.netProductPrice}} </td>
+            </ng-container>    
+        
+            <tr mat-header-row *matHeaderRowDef="displayeOrderDetailsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayeOrderDetailsColumns;"></tr>
+          </table>
+    </mat-card>
+</div>
