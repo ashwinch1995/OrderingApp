@@ -1,0 +1,102 @@
+
+<mat-card *ngIf = "products">
+    <h2>Products</h2>
+    <table mat-table [dataSource]="productsModel" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="productID">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.product.productID}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="productName">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.product.productName}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="brand">
+          <th mat-header-cell *matHeaderCellDef> Brand </th>
+          <td mat-cell *matCellDef="let element"> {{element.product.brand}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef> Category </th>
+          <td mat-cell *matCellDef="let element"> {{element.product.category}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="unitPrice">
+            <th mat-header-cell *matHeaderCellDef> Unit Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.product.unitPrice}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element"> <input matInput type="number" [(ngModel)]="element.quantity"> </td>
+        </ng-container>
+        <ng-container matColumnDef="add">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element"> <button mat-raised-button type="button" (click)="rowClicked(element)" style="float: right;">Add to cart</button> </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table> 
+      <br>   
+      <button mat-raised-button (click) = "placeOrder()" style="float: right; margin-right: 20px;">Place Order</button>
+      <button mat-raised-button (click) = "showAddProductView()">Add New Product</button>
+</mat-card>
+
+<div style="padding-top: 1%;"  *ngIf = "showAddProduct">
+    <mat-card>
+        <h2>New Product</h2>
+        <form #product = "ngForm" (ngSubmit)="onSubmit(product.value)">
+        <p>
+        <mat-form-field appearance="fill">            
+            <input matInput placeholder="Name" name="productName" ngModel>
+          </mat-form-field>
+        </p>
+          <p>
+          <mat-form-field appearance="fill">
+            <input matInput placeholder="Category" name="category" ngModel>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="fill">
+            <input matInput placeholder="Brand" name="brand" ngModel>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="fill">
+            <input matInput type="number" placeholder="Unit Price" name="unitPrice" ngModel>
+          </mat-form-field>
+        </p>
+          <button mat-raised-button type="submit">Add</button>
+          <button mat-raised-button type="button" (click)="closeAddProduct()">Cancel</button>
+        </form>
+    </mat-card>
+</div>
+
+<div style="padding-top: 1%;"  *ngIf = "showCartProduct">    
+    <mat-card *ngIf = "orderProducts">
+        <h2>Cart</h2>
+    <table mat-table [dataSource]="orderProducts" class="mat-elevation-z8">
+      
+        <ng-container matColumnDef="productName">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.product.productName}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="netProductPrice">
+            <th mat-header-cell *matHeaderCellDef> Net Amout </th>
+            <td mat-cell *matCellDef="let element"> {{element.netProductPrice}} </td>
+          </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayeOrderProductColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayeOrderProductColumns;"></tr>
+      </table> 
+    </mat-card>
+</div>
